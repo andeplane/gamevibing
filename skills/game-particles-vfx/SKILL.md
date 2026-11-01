@@ -1,6 +1,6 @@
 ---
 name: game-particles-vfx
-description: Load when adding particles or VFX: explosions, magic, hit sparks, muzzle flashes, trails and ribbons, smoke and fire, weather (rain/snow), heat haze and shockwaves, dissolves, impact frames. Also load when choosing between three.quarks, three-nebula, TSL compute particles, Effekseer, sprite-sheet packs (kanaworks sakuga), Godot GPUParticles3D or Unity VFX Graph, or when particles tank the frame rate (overdraw).
+description: "Load when adding particles or VFX: explosions, magic, hit sparks, muzzle flashes, trails and ribbons, smoke and fire, weather (rain/snow), heat haze and shockwaves, dissolves, impact frames. Also load when choosing between three.quarks, three-nebula, TSL compute particles, Effekseer, sprite-sheet packs (kanaworks sakuga), Godot GPUParticles3D or Unity VFX Graph, or when particles tank the frame rate (overdraw)."
 ---
 
 # Game particles and VFX

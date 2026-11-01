@@ -6,9 +6,9 @@ Home for the Vibegames project: game experiments and the Claude skills that supp
 
 Research behind the skills: [how the viral games were built (author replies)](docs/how-they-built-it-notes.md) · [first research report](docs/vibe-coded-games-report.md)
 
-## Game skills for Claude Code
+## Game skills for coding agents
 
-A set of 19 Claude Code skills for building high-quality games with agents. Most target three.js/WebGPU in the browser, with Godot, Unity, Unreal and 2D notes throughout. Each skill is a **decision guide** (what to use when, and when not to), followed by working recipes, the pitfalls models usually hit, and a verification step. Snippets were run or type-checked against three r187, Rapier 0.21 and the other current packages where possible; anything unchecked is marked *(unverified)* or *check docs*.
+A set of 19 [Agent Skills](https://agentskills.io) for building high-quality games with coding agents: Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode, Windsurf, Cline, Roo, Kiro and the other agents supported by [Vercel's skills CLI](https://github.com/vercel-labs/skills). Most target three.js/WebGPU in the browser, with Godot, Unity, Unreal and 2D notes throughout. Each skill is a **decision guide** (what to use when, and when not to), followed by working recipes, the pitfalls models usually hit, and a verification step. Snippets were run or type-checked against three r187, Rapier 0.21 and the other current packages where possible; anything unchecked is marked *(unverified)* or *check docs*.
 
 Sources:
 - The 52 replies on Rimsha Bhardwaj's "10 repos for AAA-style games" thread and her earlier "10 agent game-dev repos" thread.
@@ -17,14 +17,34 @@ Sources:
 
 ## Install
 
-Claude sessions opened in this repo pick the skills up automatically from `.claude/skills/`. To use them in another game repo:
+Install with [Vercel's skills CLI](https://github.com/vercel-labs/skills); no clone needed:
 ```bash
-# per game repo (recommended)
-mkdir -p <game>/.claude/skills && cp -r .claude/skills/game-* <game>/.claude/skills/
-# or for every project
-cp -r .claude/skills/game-* ~/.claude/skills/
+# all 19 skills into the current project, for the agents you pick interactively
+npx skills add andeplane/gamevibing
+
+# non-interactive: all skills for Claude Code, Codex, Cursor and Gemini CLI
+npx skills add andeplane/gamevibing --skill '*' -a claude-code -a codex -a cursor -a gemini-cli -y
+
+# every supported agent, user-wide (~/.claude/skills, ~/.agents/skills, …)
+npx skills add andeplane/gamevibing --all -g
+
+# just a few skills
+npx skills add andeplane/gamevibing --skill game-dev-index --skill game-direction-workflow --skill game-voxels
+
+# see what's in the repo / update later
+npx skills add andeplane/gamevibing --list
+npx skills update
 ```
-Then start with: *"Load game-dev-index and game-direction-workflow, then write docs/BRIEF.md for …"*.
+Where they land:
+- Claude Code: `.claude/skills/`.
+- Codex, Cursor, Gemini CLI, Copilot, OpenCode, Cline, Amp, Zed and other `.agents`-standard agents: `.agents/skills/`.
+- Windsurf: `.windsurf/skills/`. Roo: `.roo/skills/`. Kiro: `.kiro/skills/`.
+
+The CLI symlinks by default; add `--copy` to vendor the files into your game repo instead.
+
+In this repo the skills live in `skills/`, and `.claude/skills` and `.agents/skills` are symlinks to it, so agents opened here load them directly.
+
+Then start with: *"Load game-dev-index and game-direction-workflow, then write docs/BRIEF.md for …"*. Some skills give Claude Code commands (`claude mcp add`, `/goal`). `game-dev-index` lists the equivalents for Codex, Cursor, Gemini CLI, Copilot, Windsurf and OpenCode.
 
 Also install these external packs. We link to them rather than duplicating them:
 ```bash
@@ -34,9 +54,9 @@ npx skills add majidmanzarpour/threejs-game-skills   # game director, QA, Playwr
 npx skills add gamedev-skills/awesome-gamedev-agent-skills   # game-feel, engine-specific skills
 # Godot: jame581/GodotPrompter · Unreal: EpicGames/unreal-engine-skills-for-claude-code-plugin
 ```
-If `npx skills` isn't available, clone the repo and copy its `skills/` folders into `.claude/skills/`.
+Without the CLI, clone the repo and copy its `skills/<name>/` folders into your agent's skills directory.
 
-MCP servers:
+MCP servers (Claude Code syntax shown; for other agents see the table in [game-dev-index](skills/game-dev-index/SKILL.md)):
 ```bash
 claude mcp add playwright npx @playwright/mcp@latest        # see + play the game (essential)
 claude mcp add chrome-devtools npx chrome-devtools-mcp@latest   # perf traces, heap
@@ -48,25 +68,25 @@ claude mcp add --transport http context7 https://mcp.context7.com/mcp   # curren
 
 | Skill | Your category | Load when |
 |---|---|---|
-| [game-dev-index](.claude/skills/game-dev-index/SKILL.md) | — | Start of any game work: the router + baseline setup |
-| [game-direction-workflow](.claude/skills/game-direction-workflow/SKILL.md) | workflow | New game or big feature: brief, kickoff prompt, agent waves + critics, critique prompts, /goal, guard rails |
-| [game-engine-choice](.claude/skills/game-engine-choice/SKILL.md) | workflow | three.js vs custom WebGPU vs Godot (no MCP) vs Unity vs Unreal vs Phaser |
-| [game-design-fun](.claude/skills/game-design-fun/SKILL.md) | workflow | Core loop, game feel, balance/fairness, progression, playtests |
-| [game-world-generation](.claude/skills/game-world-generation/SKILL.md) | **1. World generation** | Terrain, noise, erosion, biomes, rivers, scattering, streaming, terrain LOD, heightfield colliders |
-| [game-building-generation](.claude/skills/game-building-generation/SKILL.md) | **2. Building generation** | Buildings, towns, interiors, modular kits, WFC, BSP/caves, lock-and-key dungeons + solvers, templates + decay |
-| [game-physics](.claude/skills/game-physics/SKILL.md) | **3. Physics** | Rapier/Jolt/Box2D choice, fixed step, character controller, vehicles, ragdolls, convex decomposition, determinism, workers |
-| [game-materials-shaders](.claude/skills/game-materials-shaders/SKILL.md) | **4. Materials** | PBR + colour management, TSL vs GLSL, triplanar, splat terrain, toon, water/sky/fog, foliage wind, post-processing |
-| [game-particles-vfx](.claude/skills/game-particles-vfx/SKILL.md) | **5. Particles & effects** | three.quarks/nebula/Effekseer, TSL compute particles, trails, flipbooks, explosions/magic/weather, overdraw |
-| [game-voxels](.claude/skills/game-voxels/SKILL.md) | **6. Voxels** | Chunks, culled vs greedy meshing, AO, light propagation, workers, smooth voxels/transvoxel, .vox, destructible terrain |
-| [game-npc-ai](.claude/skills/game-npc-ai/SKILL.md) | **7. NPCs** | Navmesh, crowds, steering, A*/flow fields, FSM/BT/utility/GOAP, perception, sim routines, LLM dialogue, ECS |
-| [game-characters-animation](.claude/skills/game-characters-animation/SKILL.md) | **8. Characters** | Character sources, AnimationMixer blending, retargeting, IK, third-person controller + camera, mocap, 2D paper-doll |
-| [game-performance-optimization](.claude/skills/game-performance-optimization/SKILL.md) | **9. Mesh optimisation / perf** | Profiling first; draw calls → instancing/batching; LOD (meshoptimizer); KTX2/meshopt; impostors; culling; budgets |
-| [game-asset-pipeline](.claude/skills/game-asset-pipeline/SKILL.md) | assets | Procedural → CC0 → Blender scripts → Tripo/Meshy → blender-mcp cleanup; licences, folder layout |
-| [game-art-review](.claude/skills/game-art-review/SKILL.md) | quality | References, deterministic captures, critic agent, common "AI-look" defects |
-| [game-debug-tools](.claude/skills/game-debug-tools/SKILL.md) | quality | `window.__game` hooks, `render_game_to_text`, debug panels (ImGui-style), Playwright play harness |
-| [game-audio](.claude/skills/game-audio/SKILL.md) | extra | Howler/Tone/ZzFX, spatial audio, adaptive music, ElevenLabs/Suno, unlocking audio on first input |
-| [game-2d](.claude/skills/game-2d/SKILL.md) | extra | Phaser 4/Pixi 8/KAPLAY/Excalibur, Tiled/LDtk, pixel-art pipeline, AI sprites, 2D physics |
-| [game-multiplayer](.claude/skills/game-multiplayer/SKILL.md) | extra | Colyseus/PartyServer/Geckos/Nakama, prediction + reconciliation, rollback, lockstep, Cloudflare |
+| [game-dev-index](skills/game-dev-index/SKILL.md) | — | Start of any game work: the router + baseline setup |
+| [game-direction-workflow](skills/game-direction-workflow/SKILL.md) | workflow | New game or big feature: brief, kickoff prompt, agent waves + critics, critique prompts, /goal, guard rails |
+| [game-engine-choice](skills/game-engine-choice/SKILL.md) | workflow | three.js vs custom WebGPU vs Godot (no MCP) vs Unity vs Unreal vs Phaser |
+| [game-design-fun](skills/game-design-fun/SKILL.md) | workflow | Core loop, game feel, balance/fairness, progression, playtests |
+| [game-world-generation](skills/game-world-generation/SKILL.md) | **1. World generation** | Terrain, noise, erosion, biomes, rivers, scattering, streaming, terrain LOD, heightfield colliders |
+| [game-building-generation](skills/game-building-generation/SKILL.md) | **2. Building generation** | Buildings, towns, interiors, modular kits, WFC, BSP/caves, lock-and-key dungeons + solvers, templates + decay |
+| [game-physics](skills/game-physics/SKILL.md) | **3. Physics** | Rapier/Jolt/Box2D choice, fixed step, character controller, vehicles, ragdolls, convex decomposition, determinism, workers |
+| [game-materials-shaders](skills/game-materials-shaders/SKILL.md) | **4. Materials** | PBR + colour management, TSL vs GLSL, triplanar, splat terrain, toon, water/sky/fog, foliage wind, post-processing |
+| [game-particles-vfx](skills/game-particles-vfx/SKILL.md) | **5. Particles & effects** | three.quarks/nebula/Effekseer, TSL compute particles, trails, flipbooks, explosions/magic/weather, overdraw |
+| [game-voxels](skills/game-voxels/SKILL.md) | **6. Voxels** | Chunks, culled vs greedy meshing, AO, light propagation, workers, smooth voxels/transvoxel, .vox, destructible terrain |
+| [game-npc-ai](skills/game-npc-ai/SKILL.md) | **7. NPCs** | Navmesh, crowds, steering, A*/flow fields, FSM/BT/utility/GOAP, perception, sim routines, LLM dialogue, ECS |
+| [game-characters-animation](skills/game-characters-animation/SKILL.md) | **8. Characters** | Character sources, AnimationMixer blending, retargeting, IK, third-person controller + camera, mocap, 2D paper-doll |
+| [game-performance-optimization](skills/game-performance-optimization/SKILL.md) | **9. Mesh optimisation / perf** | Profiling first; draw calls → instancing/batching; LOD (meshoptimizer); KTX2/meshopt; impostors; culling; budgets |
+| [game-asset-pipeline](skills/game-asset-pipeline/SKILL.md) | assets | Procedural → CC0 → Blender scripts → Tripo/Meshy → blender-mcp cleanup; licences, folder layout |
+| [game-art-review](skills/game-art-review/SKILL.md) | quality | References, deterministic captures, critic agent, common "AI-look" defects |
+| [game-debug-tools](skills/game-debug-tools/SKILL.md) | quality | `window.__game` hooks, `render_game_to_text`, debug panels (ImGui-style), Playwright play harness |
+| [game-audio](skills/game-audio/SKILL.md) | extra | Howler/Tone/ZzFX, spatial audio, adaptive music, ElevenLabs/Suno, unlocking audio on first input |
+| [game-2d](skills/game-2d/SKILL.md) | extra | Phaser 4/Pixi 8/KAPLAY/Excalibur, Tiled/LDtk, pixel-art pipeline, AI sprites, 2D physics |
+| [game-multiplayer](skills/game-multiplayer/SKILL.md) | extra | Colyseus/PartyServer/Geckos/Nakama, prediction + reconciliation, rollback, lockstep, Cloudflare |
 
 ## What the viral games actually did (from the authors' own replies)
 

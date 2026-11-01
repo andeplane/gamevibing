@@ -1,6 +1,6 @@
 ---
 name: game-direction-workflow
-description: How to direct Claude through building a game, from first prompt to polish. Load at the start of any new game, before a big feature, or before a long autonomous / multi-agent run. Covers the kickoff prompt, agent waves with critics, critique prompts, /goal recipes and the guard rails that keep a growing codebase sane.
+description: How to direct a coding agent (Claude Code, Codex, Cursor, Gemini CLI, Copilot, OpenCode…) through building a game, from first prompt to polish. Load at the start of any new game, before a big feature, or before a long autonomous / multi-agent run. Covers the kickoff prompt, agent waves with critics, critique prompts, /goal recipes and the guard rails that keep a growing codebase sane.
 ---
 
 # Game direction workflow
@@ -55,7 +55,7 @@ several views and compares them against references, then files concrete defects.
 Keep docs/PROGRESS.md updated with what's done, what's next and known issues.
 ```
 
-Settings: effort **max/extra-high** for the kickoff and for rewrites; lower effort is fine for small fixes.
+Settings: the highest reasoning effort for the kickoff and for rewrites (Claude Code: max/extra-high; Codex: `high`/`xhigh` reasoning); lower effort is fine for small fixes. "Parallel agents" means subagents where the agent has them (Claude Code subagents, Codex/Cursor multi-agent). Otherwise run each domain and the critic as separate sessions on separate branches.
 
 ## Phase 3: Agent waves (for long runs)
 
@@ -76,9 +76,9 @@ Write short, specific and physical critiques. Good patterns, from Dan Greenheck'
 
 Avoid vague praise or "make it better". Every prompt should name what is wrong and where.
 
-## /goal recipes
+## Done-conditions (/goal recipes)
 
-`/goal` is judged only on what is visible in the transcript, so goals must be mechanically provable:
+Claude Code's `/goal` keeps working until an evaluator judges the condition met from the transcript alone. Other agents don't have `/goal`; paste the same done-condition at the end of the prompt, or use the agent's own loop/autonomous mode. Either way the condition must be mechanically provable from printed output:
 ```
 /goal Implement steps B.1–B.3 of docs/BRIEF-BUNKERS.md. Done when: `npm run build` exits 0,
 `npm test` passes, `npm run playtest -- --scenario bunkers` saves screenshots to
@@ -89,7 +89,7 @@ Stop after 30 turns if not done and summarise blockers.
 ## Guard rails for codebases that grow
 
 Sindre noticed Opus slowing and losing the big picture as Topside grew. Counter it with:
-- **AGENTS.md** (and a CLAUDE.md containing `@AGENTS.md`) with architecture rules, commands and definition of done.
+- **AGENTS.md** with architecture rules, commands and definition of done. Codex, Cursor, Copilot, OpenCode, Amp and most other agents read it natively. For Claude Code add a `CLAUDE.md` containing `@AGENTS.md`; for Gemini CLI set `contextFileName` to `AGENTS.md` or add a `GEMINI.md` that points to it.
 - **A deterministic simulation separate from rendering**, enforced by a test that fails on forbidden imports (Fuse Bombers: `src/engine` may not import Phaser/DOM/`Math.random`/`Date.now`). This keeps replays, bots, netcode and tests possible.
 - **A seeded RNG everywhere.** Generators are pure functions of the seed. Golden hashes guard worldgen changes (bump `GEN_VERSION`).
 - **docs/PROGRESS.md** as continuity between sessions; one brief per feature in `docs/BRIEF-<feature>.md`.

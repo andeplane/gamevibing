@@ -30,8 +30,8 @@ Load the skills relevant to the task; don't load all of them. Always load `game-
 
 ## Baseline setup for a game repo
 
-1. **MCP servers:**
-   - Playwright MCP (`claude mcp add playwright npx @playwright/mcp@latest`)
+1. **MCP servers** (registration per agent is shown below):
+   - Playwright MCP (`npx @playwright/mcp@latest`)
    - Chrome DevTools MCP (`npx chrome-devtools-mcp@latest`)
    - Context7 for current docs
    - blender-mcp, only when making assets
@@ -40,9 +40,28 @@ Load the skills relevant to the task; don't load all of them. Always load `game-
    - `dgreenheck/webgpu-claude-skill`: TSL/WebGPU.
    - `majidmanzarpour/threejs-game-skills`: game director, QA and Playwright templates.
    - `gamedev-skills/awesome-gamedev-agent-skills`: game-feel, engine-specific skills.
-   - Godot: `jame581/GodotPrompter`. Unreal: Epic's official Claude Code plugin.
+   - Godot: `jame581/GodotPrompter`. Unreal: Epic's official Claude Code plugin (Claude Code only).
 3. **Files:**
-   - `AGENTS.md` with architecture rules and commands, plus `CLAUDE.md` containing `@AGENTS.md`.
+   - `AGENTS.md` with architecture rules and commands. For Claude Code add `CLAUDE.md` containing `@AGENTS.md`; for Gemini CLI add a `GEMINI.md` or set `contextFileName`.
    - `docs/BRIEF.md` and `docs/PROGRESS.md`.
    - `art/refs/`, `CREDITS.md`, and the debug hooks from `game-debug-tools`.
 4. **Defaults:** three.js r18x + WebGPU/TSL + Vite + TypeScript; Rapier physics; a deterministic seeded simulation separate from rendering; FPS shown in dev builds.
+
+## Using these skills outside Claude Code
+
+The skills are plain Agent Skills (`SKILL.md` + `references/`), so any agent that supports skills can load them. Install them with Vercel's skills CLI: `npx skills add andeplane/gamevibing -a <agent>`. Where a skill gives a `claude mcp add …` command, register the same server in your agent instead. Check your agent's docs for the exact syntax:
+
+| Agent | Register an MCP server |
+|---|---|
+| Claude Code | `claude mcp add playwright npx @playwright/mcp@latest` |
+| Codex CLI | `codex mcp add playwright -- npx @playwright/mcp@latest` (or `[mcp_servers.playwright]` in `~/.codex/config.toml`) |
+| Cursor | `.cursor/mcp.json` → `{"mcpServers": {"playwright": {"command": "npx", "args": ["@playwright/mcp@latest"]}}}` |
+| Gemini CLI | `gemini mcp add playwright npx @playwright/mcp@latest` (or `mcpServers` in `.gemini/settings.json`) |
+| GitHub Copilot (VS Code) | `.vscode/mcp.json` → `{"servers": {"playwright": {"command": "npx", "args": ["@playwright/mcp@latest"]}}}` |
+| Windsurf | `~/.codeium/windsurf/mcp_config.json` → `mcpServers` |
+| OpenCode | `opencode.json` → `"mcp": {"playwright": {"type": "local", "command": ["npx", "@playwright/mcp@latest"]}}` |
+
+Claude Code-only features named in the skills, with their equivalents elsewhere:
+- `/goal` → put the done-condition at the end of the prompt.
+- Subagents → the agent's multi-agent mode, or separate sessions.
+- `/plugin marketplace add …` → install that repo's skills with `npx skills add <repo>` where it has `SKILL.md` files.

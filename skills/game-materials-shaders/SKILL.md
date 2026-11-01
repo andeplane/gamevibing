@@ -1,6 +1,6 @@
 ---
 name: game-materials-shaders
-description: Load when a game's surfaces, lighting or image need work. Covers PBR materials and textures (Poly Haven, ambientCG), HDRI lighting, colour management and tone mapping, and custom shaders (TSL node materials on WebGPURenderer, or GLSL on WebGLRenderer). Techniques: terrain splatting and triplanar, toon shading and outlines, water, grass wind, sky, fog, clouds and decals. Post-processing: bloom, AO, SSR, LUT grading. Also load when a scene looks flat, washed out, plasticky or too dark, or a shader won't compile.
+description: "Load when a game's surfaces, lighting or image need work. Covers PBR materials and textures (Poly Haven, ambientCG), HDRI lighting, colour management and tone mapping, and custom shaders (TSL node materials on WebGPURenderer, or GLSL on WebGLRenderer). Techniques: terrain splatting and triplanar, toon shading and outlines, water, grass wind, sky, fog, clouds and decals. Post-processing: bloom, AO, SSR, LUT grading. Also load when a scene looks flat, washed out, plasticky or too dark, or a shader won't compile."
 ---
 
 # Game materials, shaders and post
