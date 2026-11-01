@@ -82,9 +82,9 @@ Extending the grammar (same two primitives):
 4. **Terrain fit**: sample terrain at footprint corners. If `max − min > maxStep`, add a plinth (foundation
    piece down to the lowest corner) or reject the lot.
 5. **Scale**: one `BatchedMesh` per material per district chunk. Stream districts like terrain chunks
-   (`game-world-generation`). The "DYSTOPIA" demo (three.js WebGPU + TSL, 42 km², 37 491 buildings, 2.9 M
-   enterable rooms, per the group's notes) shows this scale is possible in the browser. Its exact technique isn't
-   public, so treat the next section as the standard way to get there.
+   (`game-world-generation`). Browser demos on three.js WebGPU + TSL have shown about 42 km² with
+   37k buildings and millions of enterable rooms, so this scale is possible. Treat the next section as the
+   standard way to get there.
 
 ## Interiors at scale
 
@@ -100,14 +100,14 @@ Extending the grammar (same two primitives):
   rule-based props against walls. Dispose when the player leaves.
 - **Navmesh** per generated floor in a worker. Keep doorways ≥ 1.2-1.5 m (SKILL.md rules).
 
-## Template + placement + decay (Topside pattern, `decay.ts`, tested)
+## Template + placement + decay (`decay.ts`, tested)
 
 Templates are voxel grids (MagicaVoxel `.vox` → `VOXLoader` chunks or `vox-reader`) or prefab scenes. Rotation by
 quarter turns and decay are deterministic. Tested: four rotations give back the original, voxel count is
 preserved, and the same seed gives identical output.
 
 ```ts
-// decay.ts: Topside-style "template → placement → decay" for voxel structures (deterministic)
+// decay.ts: "template → placement → decay" for voxel structures (deterministic)
 import { createNoise3D } from 'simplex-noise';
 import alea from 'alea';
 

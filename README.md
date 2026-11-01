@@ -1,19 +1,8 @@
 # gamevibing
 
-Home for the Vibegames project: game experiments and the Claude skills that support them.
+**Agent Skills for building great games with coding agents.** 19 skills that work with Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode, Windsurf, Cline, Roo, Kiro and the other agents supported by [Vercel's skills CLI](https://github.com/vercel-labs/skills), plus a catalog of about 130 tools for world generation, buildings, physics, materials, VFX, voxels, NPCs, characters and performance.
 
-`.claude/settings.json` allows the common tools (shell, file edits, web fetch and search, MCP tools) so Claude sessions in this repo run without permission prompts.
-
-Research behind the skills: [how the viral games were built (author replies)](docs/how-they-built-it-notes.md) · [first research report](docs/vibe-coded-games-report.md)
-
-## Game skills for coding agents
-
-A set of 19 [Agent Skills](https://agentskills.io) for building high-quality games with coding agents: Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode, Windsurf, Cline, Roo, Kiro and the other agents supported by [Vercel's skills CLI](https://github.com/vercel-labs/skills). Most target three.js/WebGPU in the browser, with Godot, Unity, Unreal and 2D notes throughout. Each skill is a **decision guide** (what to use when, and when not to), followed by working recipes, the pitfalls models usually hit, and a verification step. Snippets were run or type-checked against three r187, Rapier 0.21 and the other current packages where possible; anything unchecked is marked *(unverified)* or *check docs*.
-
-Sources:
-- The 52 replies on Rimsha Bhardwaj's "10 repos for AAA-style games" thread and her earlier "10 agent game-dev repos" thread.
-- The authors' own "how I did it" replies on the 25 games in our Slack channel. These were read in a signed-in browser.
-- A survey of GitHub repos, skill packs and MCP servers, as of 31 Oct 2026.
+Most skills target three.js/WebGPU in the browser, with Godot, Unity, Unreal and 2D notes throughout. Each one is a **decision guide** (what to use when, and when not to), followed by working recipes, the pitfalls models usually hit, and a verification step. Snippets were run or type-checked against three r187, Rapier 0.21 and the other current packages where possible; anything unchecked is marked *(unverified)* or *check docs*.
 
 ## Install
 
@@ -66,21 +55,21 @@ claude mcp add --transport http context7 https://mcp.context7.com/mcp   # curren
 
 ## The skills
 
-| Skill | Your category | Load when |
+| Skill | Category | Load when |
 |---|---|---|
 | [game-dev-index](skills/game-dev-index/SKILL.md) | — | Start of any game work: the router + baseline setup |
 | [game-direction-workflow](skills/game-direction-workflow/SKILL.md) | workflow | New game or big feature: brief, kickoff prompt, agent waves + critics, critique prompts, /goal, guard rails |
 | [game-engine-choice](skills/game-engine-choice/SKILL.md) | workflow | three.js vs custom WebGPU vs Godot (no MCP) vs Unity vs Unreal vs Phaser |
 | [game-design-fun](skills/game-design-fun/SKILL.md) | workflow | Core loop, game feel, balance/fairness, progression, playtests |
-| [game-world-generation](skills/game-world-generation/SKILL.md) | **1. World generation** | Terrain, noise, erosion, biomes, rivers, scattering, streaming, terrain LOD, heightfield colliders |
-| [game-building-generation](skills/game-building-generation/SKILL.md) | **2. Building generation** | Buildings, towns, interiors, modular kits, WFC, BSP/caves, lock-and-key dungeons + solvers, templates + decay |
-| [game-physics](skills/game-physics/SKILL.md) | **3. Physics** | Rapier/Jolt/Box2D choice, fixed step, character controller, vehicles, ragdolls, convex decomposition, determinism, workers |
-| [game-materials-shaders](skills/game-materials-shaders/SKILL.md) | **4. Materials** | PBR + colour management, TSL vs GLSL, triplanar, splat terrain, toon, water/sky/fog, foliage wind, post-processing |
-| [game-particles-vfx](skills/game-particles-vfx/SKILL.md) | **5. Particles & effects** | three.quarks/nebula/Effekseer, TSL compute particles, trails, flipbooks, explosions/magic/weather, overdraw |
-| [game-voxels](skills/game-voxels/SKILL.md) | **6. Voxels** | Chunks, culled vs greedy meshing, AO, light propagation, workers, smooth voxels/transvoxel, .vox, destructible terrain |
-| [game-npc-ai](skills/game-npc-ai/SKILL.md) | **7. NPCs** | Navmesh, crowds, steering, A*/flow fields, FSM/BT/utility/GOAP, perception, sim routines, LLM dialogue, ECS |
-| [game-characters-animation](skills/game-characters-animation/SKILL.md) | **8. Characters** | Character sources, AnimationMixer blending, retargeting, IK, third-person controller + camera, mocap, 2D paper-doll |
-| [game-performance-optimization](skills/game-performance-optimization/SKILL.md) | **9. Mesh optimisation / perf** | Profiling first; draw calls → instancing/batching; LOD (meshoptimizer); KTX2/meshopt; impostors; culling; budgets |
+| [game-world-generation](skills/game-world-generation/SKILL.md) | **World generation** | Terrain, noise, erosion, biomes, rivers, scattering, streaming, terrain LOD, heightfield colliders |
+| [game-building-generation](skills/game-building-generation/SKILL.md) | **Building generation** | Buildings, towns, interiors, modular kits, WFC, BSP/caves, lock-and-key dungeons + solvers, templates + decay |
+| [game-physics](skills/game-physics/SKILL.md) | **Physics** | Rapier/Jolt/Box2D choice, fixed step, character controller, vehicles, ragdolls, convex decomposition, determinism, workers |
+| [game-materials-shaders](skills/game-materials-shaders/SKILL.md) | **Materials** | PBR + colour management, TSL vs GLSL, triplanar, splat terrain, toon, water/sky/fog, foliage wind, post-processing |
+| [game-particles-vfx](skills/game-particles-vfx/SKILL.md) | **Particles & effects** | three.quarks/nebula/Effekseer, TSL compute particles, trails, flipbooks, explosions/magic/weather, overdraw |
+| [game-voxels](skills/game-voxels/SKILL.md) | **Voxels** | Chunks, culled vs greedy meshing, AO, light propagation, workers, smooth voxels/transvoxel, .vox, destructible terrain |
+| [game-npc-ai](skills/game-npc-ai/SKILL.md) | **NPCs** | Navmesh, crowds, steering, A*/flow fields, FSM/BT/utility/GOAP, perception, sim routines, LLM dialogue, ECS |
+| [game-characters-animation](skills/game-characters-animation/SKILL.md) | **Characters** | Character sources, AnimationMixer blending, retargeting, IK, third-person controller + camera, mocap, 2D paper-doll |
+| [game-performance-optimization](skills/game-performance-optimization/SKILL.md) | **Performance** | Profiling first; draw calls → instancing/batching; LOD (meshoptimizer); KTX2/meshopt; impostors; culling; budgets |
 | [game-asset-pipeline](skills/game-asset-pipeline/SKILL.md) | assets | Procedural → CC0 → Blender scripts → Tripo/Meshy → blender-mcp cleanup; licences, folder layout |
 | [game-art-review](skills/game-art-review/SKILL.md) | quality | References, deterministic captures, critic agent, common "AI-look" defects |
 | [game-debug-tools](skills/game-debug-tools/SKILL.md) | quality | `window.__game` hooks, `render_game_to_text`, debug panels (ImGui-style), Playwright play harness |
@@ -88,39 +77,24 @@ claude mcp add --transport http context7 https://mcp.context7.com/mcp   # curren
 | [game-2d](skills/game-2d/SKILL.md) | extra | Phaser 4/Pixi 8/KAPLAY/Excalibur, Tiled/LDtk, pixel-art pipeline, AI sprites, 2D physics |
 | [game-multiplayer](skills/game-multiplayer/SKILL.md) | extra | Colyseus/PartyServer/Geckos/Nakama, prediction + reconciliation, rollback, lockstep, Cloudflare |
 
-## What the viral games actually did (from the authors' own replies)
+## Principles
 
-| Game | Stack | How |
-|---|---|---|
-| [Noah Wachnik, Minecraft test](https://x.com/noahwachnik/status/2102470200415166699) | three.js | 2-sentence prompt, **max effort**, 1h37m, ~$15 |
-| [Danny Limanseta, Wildbrush](https://wildbrush.vercel.app) | three.js, vanilla Claude Code, no skills | "make a zelda-like game with paintbrush as a weapon … **wow me and use up to 6 agents**", then a day of iterating with his kids. Extra High effort, ~30% of the weekly limit |
-| [aipulsedaily, Forest-like island](https://x.com/aipulseda1ly/status/2103352533657719230) | three.js, CC0 textures + recorded sound | **"waves of agents, one per domain, and critic agents that never touched the build checked the renders against real photos"**. Offline erosion baked in; far trees as baked billboards; 50 subagents for the texture pass |
-| [Dan Greenheck, Tidewater](https://github.com/dgreenheck/tidewater) | custom WebGPU/TSL, Poly Haven, Rocketbox | Max effort + parallel agents. [Full prompt list](https://x.com/dangreenheck/status/2102911556296052788): one feature-list kickoff, then dozens of picky critique prompts. $1,874 |
-| [Graalito, Relic Eater](https://x.com/graalitoo/status/2102185653492764873) | **Godot, no MCP** (edits .tscn, runs the game for screenshots), Tripo, Mixamo, map in Blender, ElevenLabs | One prompt into his own "gauntlet loop" skill (10+ private skills), 7h. "SFX are the real bottleneck now" |
-| [cryptomanavan, Lagoon Tree Village](https://lagoon-tree-village.netlify.app) | three.js only, "no assets no blender" | 2-part prompt + his own concept drawings; no skills, no /goal; ran 7h straight. Later: DYSTOPIA, 42 km², 37k procedural buildings, 2.9M rooms (WebGPU + TSL) |
-| [Chris DiMarco, Highrise Dynasty](https://x.com/chrisjdimarco/status/2104231102412108258) | Canvas 2D + three.js | **"Every room, person and vehicle is generated by Python scripts in Blender."** Deterministic sim, being ported to C# for Unity/Steam |
-| [The_Alex, "Dark Souls"](https://x.com/The_Alex/status/2102440678282412195) | **Unreal + Opus 5.5** | "Literally just asked it to make a dark souls game in unreal" |
-| [rewind, cozy fishing](https://x.com/rewind02/status/2109585491280453986) | Tripo P2 → blender-mcp → Unity 6 | Every tool has one job: Opus sets up and animates models in Blender; systems are added one at a time; play after every step |
-| [Simon, Halloween game](https://x.com/iced_coffee_dev/status/2102880675645071652) | three.js → custom WebGPU renderer (Codex) | Modified Quaternius assets + procedural grass; the custom renderer removed frame spikes and load time |
-| [Chetan, moonlit swamp](https://x.com/chetanankola/status/2101595285675970853) | three.js + some Blender | "not a one shot … lots of reference images … and steering". Took several days, mostly Opus |
-| Sindre, Topside | three.js voxel engine (Cavecraft) | Brief per feature, phased steps with independent review, seeded generators + a solver over 256 seeds |
-| [Andreas, Fuse Bombers](https://github.com/andreavs/fuse-bombers) | Phaser 4 + TS | Issue → implementer agent → reviewer agent; AGENTS.md; a deterministic engine/render split enforced by a test |
+What the best agent-built games have in common, and what the skills keep pushing for:
+- **Set a quality bar and give references.** Reference photos and a named target ("as polished as <game>") beat long specs.
+- **Separate builders from critics.** A critic agent that never edits code compares screenshots against the references.
+- **Be picky.** Short, specific critique prompts ("the foam is stretched", "the shadows are too weak") are what lift a demo.
+- **Keep the simulation deterministic and separate from rendering**, enforced by a test. Replays, bots, netcode and tests depend on it.
+- **Reach for procedural code and CC0 assets before AI-generated meshes.**
+- **Let the agent see the game:** screenshots, state hooks and debug panels. Agents are far more useful when they can see the state they change instead of guessing from logs.
+- **Optimise meshes early.** meshoptimizer LODs and KTX2 textures are the steps most often skipped.
 
-Common pattern:
-- **Set a quality bar and give references.**
-- **Separate builders from critics.**
-- **Be very picky in the critique prompts.**
-- **Keep the simulation deterministic and separate from rendering.**
-- **Reach for procedural code and CC0 before AI meshes.**
-- **The agent must see the game:** screenshots, state hooks, debug panels.
+See [docs/showcase.md](docs/showcase.md) for notable agent-built games and write-ups about how they were made.
 
-From the Rimsha thread replies: "agents get a lot more useful when they can see the state they're changing instead of guessing from logs" (the Dear ImGui tip). Also: "meshoptimizer is what everyone skips". And: Godot now ships Jolt built in.
+## Tool catalog (about 130 tools, grouped by topic)
 
-## Tool catalog (about 130 tools, grouped by your 9 categories plus extras)
+Star counts are approximate and, like licences, were checked in late October 2026. "When to use" is the short version; the matching skill has the full decision table.
 
-Stars and licences checked on 31 Oct 2026. "When to use" is the short version; the matching skill has the full decision table.
-
-### 1. World generation
+### World generation
 
 | Tool / repo | URL | ★ | Licence | Engine | What it is | When to use |
 |---|---|---|---|---|---|---|
@@ -136,7 +110,7 @@ Stars and licences checked on 31 Oct 2026. "When to use" is the short version; t
 | CDLOD | https://github.com/fstrugar/CDLOD | 240 | MIT | paper + DX9 | quadtree terrain LOD | huge terrains |
 | ez-tree | https://github.com/dgreenheck/ez-tree | 1.7k | MIT | three.js | seeded procedural trees | vegetation |
 
-### 2. Building, town and dungeon generation
+### Building, town and dungeon generation
 
 | Tool / repo | URL | ★ | Licence | Engine | What it is | When to use |
 |---|---|---|---|---|---|---|
@@ -152,7 +126,7 @@ Stars and licences checked on 31 Oct 2026. "When to use" is the short version; t
 | watabou/TownGeneratorOS | https://github.com/watabou/TownGeneratorOS | 1.9k | GPL-3 | Haxe | medieval towns | reference only |
 | Kenney / KayKit modular kits | https://kenney.nl · https://kaylousberg.itch.io | n/a | CC0 | any | modular building/dungeon pieces | kit assembly |
 
-### 3. Physics
+### Physics
 
 | Tool / repo | URL | ★ | Licence | Engine | What it is | When to use |
 |---|---|---|---|---|---|---|
@@ -169,7 +143,7 @@ Stars and licences checked on 31 Oct 2026. "When to use" is the short version; t
 | godot-rapier-physics | https://github.com/appsinacup/godot-rapier-physics | 1.0k | MIT | Godot | deterministic physics | Godot rollback |
 | Box3D | https://github.com/erincatto/box3d | 6.5k | MIT | C17/WASM | new 3D physics by Box2D author (alpha) | evaluate |
 
-### 4. Materials, shaders, sky and water
+### Materials, shaders, sky and water
 
 | Tool / repo | URL | ★ | Licence | Engine | What it is | When to use |
 |---|---|---|---|---|---|---|
@@ -188,7 +162,7 @@ Stars and licences checked on 31 Oct 2026. "When to use" is the short version; t
 | ArmorPaint | https://github.com/armory3d/armorpaint | – | zlib source; paid binaries | tool | mesh painting (Substance Painter alternative) | texture painting |
 | Poly Haven / ambientCG | https://polyhaven.com · https://ambientcg.com | – | CC0 | assets | HDRIs, PBR textures, scanned models | always first |
 
-### 5. Particles and effects
+### Particles and effects
 
 | Tool / repo | URL | ★ | Licence | Engine | What it is | When to use |
 |---|---|---|---|---|---|---|
@@ -200,7 +174,7 @@ Stars and licences checked on 31 Oct 2026. "When to use" is the short version; t
 | effekseer-vfx-skill | https://github.com/kanaworksai-hue/effekseer-vfx-skill | 0 | MIT | Claude plugin | agent-authored Effekseer effects | many effect variants |
 | THREE.MeshLine | https://github.com/spite/THREE.MeshLine | – | MIT | three WebGL | trails/lines | projectile trails |
 
-### 6. Voxels
+### Voxels
 
 | Tool / repo | URL | ★ | Licence | Engine | What it is | When to use |
 |---|---|---|---|---|---|---|
@@ -211,7 +185,7 @@ Stars and licences checked on 31 Oct 2026. "When to use" is the short version; t
 | Transvoxel | https://github.com/EricLengyel/Transvoxel | ? | MIT | any | seamless smooth-voxel LOD tables | smooth voxel LOD |
 | vox-reader | https://www.npmjs.com/package/vox-reader | n/a | MIT | JS | read MagicaVoxel .vox | importing .vox |
 
-### 7. NPCs, navigation, AI and ECS
+### NPCs, navigation, AI and ECS
 
 | Tool / repo | URL | ★ | Licence | Engine | What it is | When to use |
 |---|---|---|---|---|---|---|
@@ -225,7 +199,7 @@ Stars and licences checked on 31 Oct 2026. "When to use" is the short version; t
 | miniplex / becsy | https://github.com/hmans/miniplex · https://github.com/lastolivegames/becsy | 1.1k / 299 | MIT / check | web | object ECS / multithreaded ECS | mid-size games |
 | bitECS / koota / flecs | https://github.com/NateTheGreatt/bitECS · https://github.com/pmndrs/koota · https://github.com/SanderMertens/flecs | 1.5k/746/8.7k | MPL-2/ISC/MIT | web/web/C | ECS | many entities |
 
-### 8. Characters and animation
+### Characters and animation
 
 | Tool / repo | URL | ★ | Licence | Engine | What it is | When to use |
 |---|---|---|---|---|---|---|
@@ -245,7 +219,7 @@ Stars and licences checked on 31 Oct 2026. "When to use" is the short version; t
 | GVHMR | https://github.com/zju3dv/GVHMR | ~1.9k | non-commercial | offline | video→motion | research only |
 | aldegad/sprite-gen | https://github.com/aldegad/sprite-gen | (unverified) | ? | 2D | character image → animation frames + atlas, a Claude skill | 2D character animation |
 
-### 9. Mesh optimisation and performance
+### Mesh optimisation and performance
 
 | Tool / repo | URL | ★ | Licence | Engine | What it is | When to use |
 |---|---|---|---|---|---|---|
@@ -347,8 +321,8 @@ Stars and licences checked on 31 Oct 2026. "When to use" is the short version; t
 | Tool | Job | Notes |
 |---|---|---|
 | [ahujasid/blender-mcp](https://github.com/ahujasid/blender-mcp) (~32k★) | Agent drives Blender: setup, cleanup, rig, animate, export; Poly Haven, Sketchfab, Rodin and Hunyuan built in | Keep on localhost; set `DISABLE_TELEMETRY=true`; split long jobs |
-| Blender headless scripts (`blender -b -P x.py`) | Reproducible procedural assets in the repo | The Highrise Dynasty approach; no MCP needed |
-| Tripo (Smart Mesh P2, [CLI skill](https://www.npmjs.com/package/@tripo3d/cli)) | Clean quad low-poly props and characters (≤25k faces) | Used by Graalito and rewind. The MCP is alpha |
+| Blender headless scripts (`blender -b -P x.py`) | Reproducible procedural assets in the repo | Deterministic and diffable; no MCP needed |
+| Tripo (Smart Mesh P2, [CLI skill](https://www.npmjs.com/package/@tripo3d/cli)) | Clean quad low-poly props and characters (≤25k faces) | The MCP is alpha |
 | [Meshy MCP](https://github.com/meshy-dev/meshy-mcp-server) | Text/image→3D, retexture, remesh, **rig + animate** | Pro plan |
 | [TRELLIS.2](https://github.com/microsoft/TRELLIS.2) | Self-hosted image→3D (MIT) | 24GB GPU |
 | Hunyuan3D | Image→3D | Licence excludes the EU/UK/South Korea; check EEA/Norway |
@@ -397,9 +371,11 @@ Stars and licences checked on 31 Oct 2026. "When to use" is the short version; t
   - Poly Haven's API needs a visible credit.
   - Poly Pizza is mostly CC-BY. GVHMR is non-commercial.
 
-## Gaps and unverified
+## Known limits
 
-- "helium" and "amnicad" (recommended in the thread with TRELLIS.2 for asset creation) couldn't be identified.
-- Graalito's "gauntlet loop" skill set is private. He describes it as one big skill orchestrating 10+ of his own skills.
 - Effekseer node names in Godot/Unity, Effekseer/quarks inside a post chain, and texture sampling in compute on the WebGL2 fallback are marked *(unverified)* in the skills.
-- Star counts are from 31 Oct 2026 and approximate.
+- APIs in this space move monthly. Each skill names the versions it was checked against; re-check before relying on a snippet.
+
+## Contributing
+
+Skills follow the [Agent Skills](https://agentskills.io) format: `skills/<name>/SKILL.md` with `name` and `description` frontmatter, plus optional `references/*.md`. Quote a description that contains a colon, or YAML parsing fails. Check discovery with `npx skills add . --list` before opening a PR.

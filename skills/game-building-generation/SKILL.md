@@ -1,6 +1,6 @@
 ---
 name: game-building-generation
-description: Load when procedurally generating buildings, towns, cities, interiors, dungeons or levels - shape grammars (CGA-style split/repeat), modular kit assembly (Kenney/KayKit), Wave Function Collapse (incl. Townscaper-style irregular grids), BSP rooms, cellular-automata caves, graph-based lock-and-key dungeons (cyclic generation, Unexplored) with a per-seed solver, template + placement + decay (Topside), and navmesh-friendly layouts.
+description: Load when procedurally generating buildings, towns, cities, interiors, dungeons or levels - shape grammars (CGA-style split/repeat), modular kit assembly (Kenney/KayKit), Wave Function Collapse (incl. Townscaper-style irregular grids), BSP rooms, cellular-automata caves, graph-based lock-and-key dungeons (cyclic generation, Unexplored) with a per-seed solver, template + placement + decay, and navmesh-friendly layouts.
 ---
 
 # Procedural buildings, towns, dungeons and levels
@@ -33,7 +33,7 @@ References (tested code):
 | Roguelike rooms + corridors (2D/top-down) | `rot-js` `Map.Digger` / `Map.Uniform` / `Map.Rogue`, or BSP (own code) | BSP / random walk in GDScript; GodotPrompter `procedural-generation` skill | Edgar-Unity (graph + room templates) | Fast, proven | Progression-heavy levels: use the graph method |
 | Caves | Cellular automata (`rot-js` `Map.Cellular`, or own 4-5 rule) + keep largest region + connect | same | same | Organic | 3D caves with overhangs: voxels/SDF (`game-voxels`) |
 | **Progression: lock-and-key, loops, shortcuts** | **Mission graph first** (Dormans' cyclic generation, as in Unexplored) on a lattice → rooms; solver per seed | same; Edgar.Godot (MIT, wraps Edgar-DotNet) for room-template layouts | Edgar-Unity (MIT, no resale; PRO adds directed graphs) | Guarantees pacing and solvability | Pure arenas/open fields |
-| Hand-authored quality at scale | **Template + placement + decay** (Topside): author voxel/prefab templates, place by worldgen rules, decay per instance | same (scenes as templates) | Prefabs | Authored detail + procedural variety | Every instance must be unique |
+| Hand-authored quality at scale | **Template + placement + decay**: author voxel/prefab templates, place by worldgen rules, decay per instance | same (scenes as templates) | Prefabs | Authored detail + procedural variety | Every instance must be unique |
 | City road networks | Tensor-field streets (ProbableTrain/MapGenerator, LGPL/GPL, reference only in closed games), or agent/L-system growth on terrain | same | same | Believable blocks | Small towns: hand-lay a spline or two |
 | Offline hero buildings | Blender geometry nodes (Buildify, free/pay-what-you-want) via blender-mcp → glTF → meshopt/KTX2 | import glTF | import FBX/glTF | Artist-grade | Runtime-random buildings |
 | Interiors for thousands of buildings | Interior-mapping shader for far windows; generate real rooms lazily within ~50-100 m | same | same | Millions of rooms cost nothing until entered | Small games: just model them |
@@ -113,7 +113,7 @@ area, and per-building palette/material variation through instance colour (`batc
 
 ## Recipe 3: lock-and-key dungeon + solver (core of this skill)
 
-The Topside pattern: **a lock-and-key zone graph plus a solver that checks 256 seeds** in CI. Generator (full,
+The pattern: **a lock-and-key zone graph plus a solver that checks 256 seeds** in CI. Generator (full,
 tested code in the reference):
 
 1. Major cycle = perimeter of a random rectangle on a small lattice (planar, no overlaps). Start and goal sit on
@@ -153,7 +153,7 @@ gate, door sockets where the graph says a door goes, plaza in the centre). Then 
 on failure. Restarts with derived seeds keep it deterministic. The reference solver did 256/256 seeds on a
 24×16 road/house set with no restarts, and 48×48 × 16 tiles in ~240 ms in Node, so run it in a worker.
 
-## Recipe 5: template + placement + decay (Topside)
+## Recipe 5: template + placement + decay
 
 Author 10-40 templates (voxel `.vox` from MagicaVoxel, or prefab scenes) tagged with footprint, allowed biomes,
 max slope and spacing. Worldgen picks sites per region (jittered grid, seeded per cell), filters by slope/biome

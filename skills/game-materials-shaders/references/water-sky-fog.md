@@ -25,7 +25,7 @@ const river = new FlowWaterMesh(new THREE.PlaneGeometry(30, 40), {
 river.rotation.x = -Math.PI / 2; river.renderOrder = Infinity;     // as in the webgpu_water example
 ```
 
-### FFT ocean architecture (what Tidewater and web-ocean do)
+### FFT ocean architecture (as in dgreenheck/tidewater and Noniv/web-ocean)
 - Spectrum: JONSWAP (or TMA for shallow water) with directional spreading (Donelan-Banner) plus a separate long swell. Initial `h0(k)` texture is built once per sea state.
 - Per frame: evolve `h(k,t)` → inverse FFT (radix-2 compute in workgroup memory; 256² per cascade) for height + horizontal displacement ("choppy") + slopes. Use **3–6 cascades** with patch sizes like 1000 m / 100 m / 10 m / 1 m to kill tiling.
 - Foam: where the Jacobian of the horizontal displacement < threshold (folding crests), accumulated in a decaying foam texture.
@@ -57,7 +57,7 @@ river.rotation.x = -Math.PI / 2; river.renderOrder = Infinity;     // as in the 
 ## Clouds
 - Cheap: the cloud layer in `SkyMesh`, or a scrolling noise dome.
 - Volumetric box/area: three example `webgpu_volume_cloud`, `RaymarchingBox` from `three/addons/tsl/utils/Raymarching.js` + a `Data3DTexture` noise, with early-out at density≈1.
-- Full sky volumetrics: the Schneider/Guerrilla "Nubis" approach (weather map + Perlin-Worley + Worley detail, beer-powder lighting, blue-noise jitter + temporal reprojection, quarter-res march). Implementations: `@takram/three-clouds` (MIT, WebGL + pmndrs postprocessing; WebGPU port "in progress"), Tidewater `src/sky/Clouds.js` (MIT, WGSL). Budget: render at ¼ resolution and reproject, or it costs 5–10 ms.
+- Full sky volumetrics: the Schneider/Guerrilla "Nubis" approach (weather map + Perlin-Worley + Worley detail, beer-powder lighting, blue-noise jitter + temporal reprojection, quarter-res march). Implementations: `@takram/three-clouds` (MIT, WebGL + pmndrs postprocessing; WebGPU port "in progress"), dgreenheck/tidewater `src/sky/Clouds.js` (MIT, WGSL). Budget: render at ¼ resolution and reproject, or it costs 5–10 ms.
 
 ## Fog
 - WebGL: `scene.fog = new THREE.Fog(color, near, far)` / `FogExp2(color, density)`. Match `scene.background` to the fog colour.

@@ -105,7 +105,7 @@ Use `buildLODs(geometry, [0.5, 0.25, 0.1])`, which welds, simplifies with `Mesho
 
 ### 6. Impostors for far vegetation
 
-The chain is mesh, then a simplified mesh (~15–100 m), then an **octahedral impostor** (100 m+), with a **dithered cross-fade** between levels. That's the Tidewater/Fortnite approach. For three.js WebGL use `agargaro/octahedral-impostor` (MIT, WIP, ~66★; 200k-tree demo with InstancedMesh2). For WebGPU, bake your own atlas and fade with `material.maskNode` + `bayer16(screenCoordinate)` (see `references/runtime-techniques.md`).
+The chain is mesh, then a simplified mesh (~15–100 m), then an **octahedral impostor** (100 m+), with a **dithered cross-fade** between levels. That's the approach in Fortnite and in dgreenheck/tidewater. For three.js WebGL use `agargaro/octahedral-impostor` (MIT, WIP, ~66★; 200k-tree demo with InstancedMesh2). For WebGPU, bake your own atlas and fade with `material.maskNode` + `bayer16(screenCoordinate)` (see `references/runtime-techniques.md`).
 
 ### 7. Hitch killers
 
@@ -133,7 +133,7 @@ The `DynamicResolution` class feeds on GPU ms when available, otherwise rAF ms w
 | Initial download | ≤ 20–50 MB | ≤ 10–20 MB, stream the rest |
 | Shader programs (`info.programs.length`) | < 100 | < 30–50 |
 
-These are reference points, not standards. Tidewater targets 60 fps at 2560×1267 on an M5 Pro and scales resolution down on slower machines.
+These are reference points, not standards. dgreenheck/tidewater targets 60 fps at 2560×1267 on an M5 Pro and scales resolution down on slower machines.
 
 ## Pitfalls the model usually gets wrong
 

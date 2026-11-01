@@ -5,7 +5,7 @@ description: Load when a game needs online play (co-op, PvP, party, MMO-lite, tu
 
 # Multiplayer: architecture, netcode, hosting, testing
 
-Multiplayer multiplies every bug. Decide the **authority model** and **netcode technique** before writing gameplay, and keep the simulation in a **shared, deterministic module** that both server and client import (the Fuse Bombers rule: the sim never imports the renderer).
+Multiplayer multiplies every bug. Decide the **authority model** and **netcode technique** before writing gameplay, and keep the simulation in a **shared, deterministic module** that both server and client import (the sim never imports the renderer).
 
 ## 1. Pick the stack by game type
 

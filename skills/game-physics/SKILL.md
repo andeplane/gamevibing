@@ -75,7 +75,7 @@ renderer.setAnimationLoop((now: number) => {
 });
 ```
 - Render is one step behind the physics state. Raycasts, the camera and gameplay should read **physics state**, not mesh positions.
-- Physics state belongs in a module that never imports `three`, like Fuse Bombers' split between sim and render. A test enforces it: `grep -L "from 'three'" src/sim/**`.
+- Physics state belongs in a module that never imports `three`, so sim and render stay split. A test enforces it: `grep -L "from 'three'" src/sim/**`.
 - Godot: Project Settings `physics/common/physics_interpolation = true` (3D since 4.4), and do gameplay in `_physics_process`. Unity: `Rigidbody.interpolation = Interpolate`, and do gameplay in `FixedUpdate`.
 
 ## Recipe 3: kinematic character controller (Rapier KCC)

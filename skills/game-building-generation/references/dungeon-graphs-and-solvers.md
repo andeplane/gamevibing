@@ -2,7 +2,7 @@
 
 Everything below was run in Node 22 (`node --experimental-strip-types`). The 256-seed sweep passes on the first
 attempt for every seed, and 2 000 raw generations are all valid. Drop the files into `src/levelgen/` and keep the
-generator free of rendering imports (the Fuse Bombers rule: a deterministic core, a renderer on top, and a test
+generator free of rendering imports (a deterministic core, a renderer on top, and a test
 that enforces the split, e.g. an ESLint `no-restricted-imports` for `three` inside `src/levelgen/**`).
 
 ## Concepts (Dormans / Unexplored, via Boris the Brave's 2021 write-up)

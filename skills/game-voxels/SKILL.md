@@ -196,7 +196,7 @@ const mesh = buildMesh(result.chunks[0]);   // single model (VOXMesh is deprecat
 ```
 
 MagicaVoxel is **Z-up**: map `(x, y, z)` → `(x, z, -y)` when stamping into a Y-up world, and check with an
-asymmetric test model. Templates for buildings (Topside-style placement + decay): `game-building-generation`.
+asymmetric test model. Templates for buildings (template + placement + decay): `game-building-generation`.
 
 ## Godot: godot_voxel
 

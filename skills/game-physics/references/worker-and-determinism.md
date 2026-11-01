@@ -4,7 +4,7 @@
 
 Move it off the main thread when `world.step` takes over 3–4 ms, or when rendering and physics together blow the 16.6 ms budget. Below that, the extra latency and complexity aren't worth it.
 
-**Design rule: move the whole simulation, not just the physics.** Raycasts, the character controller, AI sensing and gameplay rules all query physics synchronously. If physics is in a worker and gameplay isn't, every query becomes an async round trip of 1–2 frames. The sim worker should own the physics world, gameplay and AI. The main thread renders, plays audio, reads input and runs the UI, which is Fuse Bombers' split between sim and render.
+**Design rule: move the whole simulation, not just the physics.** Raycasts, the character controller, AI sensing and gameplay rules all query physics synchronously. If physics is in a worker and gameplay isn't, every query becomes an async round trip of 1–2 frames. The sim worker should own the physics world, gameplay and AI. The main thread renders, plays audio, reads input and runs the UI. That's a clean split between sim and render.
 
 ## Recipe: transferable ping-pong (no special headers)
 

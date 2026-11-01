@@ -147,7 +147,7 @@ for (const t of allTextures) renderer.initTexture(t);  // upload now, not on fir
 ```
 
 - Keep the **light count and shadow flags constant** after warm-up. Use `intensity = 0` instead of add/remove, which would recompile all lit materials.
-- WebGL compiles in parallel only with `KHR_parallel_shader_compile`. WebGPU `compileAsync` doesn't block rendering (r184+). Tidewater still needs about 1 min on first load for hundreds of WGSL pipelines, so show progress.
+- WebGL compiles in parallel only with `KHR_parallel_shader_compile`. WebGPU `compileAsync` doesn't block rendering (r184+). dgreenheck/tidewater still needs about 1 min on first load for hundreds of WGSL pipelines, so show progress.
 - **GC:** module-scope temporaries (`const _v = new THREE.Vector3()`), no `new` in `update()`, no `array.map/filter/forEach` closures in hot loops, `for` loops over typed arrays. Check the DevTools Memory/Performance panel for a sawtooth heap and "Minor GC" every few frames.
 
 ### Object pool on one InstancedMesh (tested)
@@ -241,7 +241,7 @@ const dr = new DynamicResolution((s) => { renderer.setPixelRatio(s); composer?.s
 - at most one change per second.
 
 **Alternatives:**
-- Render the scene into a lower-res target and upscale with `FSR1Node` / `TAAUNode` (TSL addons). The HUD stays sharp. This is Tidewater's TAAU approach.
+- Render the scene into a lower-res target and upscale with `FSR1Node` / `TAAUNode` (TSL addons). The HUD stays sharp. dgreenheck/tidewater uses this TAAU approach.
 - On a stable 120 Hz display, target 8.3 ms or cap at 60.
 
 ## 9. Materials & fill

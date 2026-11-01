@@ -5,11 +5,11 @@ description: Visual quality loop for games. Covers collecting references, captur
 
 # Game art review
 
-The agent can't make a game look good if it can't see it. Every high-quality AI game in the research had a **look → compare → fix** loop:
-- **aipulsedaily (Forest-like):** "critic agents that never touched the build checked the renders against real photos". When told the first pass was mediocre, the model "pulled real reference photos to fix it".
-- **Dan Greenheck (Tidewater):** "make sure to capture additional views from wherever you need to to verify AAA quality", plus "refine it against your references until it is perfect".
-- **Graalito (Relic Eater, Godot):** "running the game and taking screenshot is the way to get good environment/art". VFX were steered with "just a reference image".
-- **Chetan (moonlit swamp):** "lots of reference images … and steering".
+The agent can't make a game look good if it can't see it. Every high-quality agent-built game has a **look → compare → fix** loop:
+- Critic agents that never touch the build check the renders against real photos.
+- When the first pass is mediocre, say so, and have the model pull real reference photos and fix against them.
+- Ask it to capture additional views from wherever it needs to verify the quality bar, and to refine against the references until they match.
+- Run the game and take screenshots; steer environments and VFX with a single reference image where words fail.
 
 ## 1. References first
 
@@ -25,7 +25,7 @@ Captures must be comparable run to run:
 - Keep named camera bookmarks in a `cameras.json` per scene: `hero-closeup`, `vista`, `ground-level`, `top-down`, `night`, `ui-overlay`.
 - A Playwright script loads `?seed=42&capture=1`, waits for ready, steps N frames, then for each bookmark sets the camera, steps 30 frames and screenshots to `artifacts/capture/<date>/<bookmark>.png`.
 - Check the GPU in headless Chrome. If `renderer` reports SwiftShader or llvmpipe, warn: the screenshots won't match real hardware.
-- For trailers, render frame by frame out of the game with fixed dt, then `ffmpeg -framerate 30 -i f_%05d.png -c:v libx264 -pix_fmt yuv420p out.mp4` (aipulsedaily rendered 1,881 frames this way).
+- For trailers, render frame by frame out of the game with fixed dt, then `ffmpeg -framerate 30 -i f_%05d.png -c:v libx264 -pix_fmt yuv420p out.mp4`. This gives smooth footage even when the game runs below 30 fps.
 - Godot: Movie Maker mode `godot --path . --write-movie artifacts/cap.png --fixed-fps 30 --quit-after 300` writes a PNG sequence. It needs a display; on Linux use xvfb.
 
 ## 3. Critic agent protocol
@@ -51,7 +51,7 @@ Builders fix the top defects, recapture, and the critic reviews **once more**; t
 | Shiny plastic look | Roughness variation maps; metalness 0 for non-metals; tone down specular |
 | Floaty objects | Contact shadows, AO, decals at the base, ground blending |
 | SaaS-looking UI | Diegetic or themed UI, game fonts, 9-slice frames, icons; nothing that looks like a web dashboard |
-| Bad audio feel (also a "vibe-coded" giveaway) | See `game-audio`: real recordings/CC0, layering, ducking |
+| Bad audio feel (a common giveaway of AI-made games) | See `game-audio`: real recordings/CC0, layering, ducking |
 | Lifeless scene | Ambient motion: birds, particles, cloth/sign sway in wind, water motion, NPC routines |
 
 ## 5. Definition of done for a visual feature

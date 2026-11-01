@@ -112,7 +112,7 @@ function advanceTo(minute: number) {                        // call with the new
 - Run the sim in a worker for big towers (see `game-physics/references/worker-and-determinism.md`). The renderer only reads positions.
 
 ## Verification
-1. **Headless 7-day run** (Node/Vitest, no rendering) for several seeds (8–256, like Topside's 256-seed solver checks). Assert these invariants:
+1. **Headless 7-day run** (Node/Vitest, no rendering) for several seeds (8–256). Assert these invariants:
    - no agent is in two places;
    - the number of users never exceeds an object's capacity;
    - no queue keeps growing forever;

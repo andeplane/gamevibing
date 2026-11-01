@@ -105,7 +105,7 @@ export const rng = { world: mulberry32(seed), ai: mulberry32(seed ^ 0x9e3779b9),
 ```
 Use separate streams, so adding a particle (fx) doesn't change loot or worldgen. Cosmetic-only code may use `Math.random()`. Simulation code may not.
 
-**Enforce the split (Fuse Bombers lesson).** The sim must not import the renderer or read wall-clock time:
+**Enforce the split.** The sim must not import the renderer or read wall-clock time:
 ```js
 // eslint.config.js (flat config)
 export default [{ files: ["src/sim/**/*.ts"], rules: {

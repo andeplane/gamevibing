@@ -113,7 +113,7 @@ test("sim is deterministic and headless", () => {
   expect(fnv1a(JSON.stringify(a.serialize()))).toBe(fnv1a(JSON.stringify(b.serialize())));
 });
 ```
-**Seed sweep for procedural content** (the Topside "256 seeds" pattern):
+**Seed sweep for procedural content** (e.g. 256 seeds through a solver):
 ```ts
 test.each(Array.from({ length: 256 }, (_, i) => i + 1))("worldgen seed %i is valid", (seed) => {
   const w = generateWorld(seed);

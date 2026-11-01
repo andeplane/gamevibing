@@ -5,31 +5,21 @@ description: How to direct a coding agent (Claude Code, Codex, Cursor, Gemini CL
 
 # Game direction workflow
 
-The viral AI games of Sept–Oct 2026 were not made with secret prompts. They were made with a **clear quality bar, a feature list, critics that compare the game against references, and a very picky human**. This skill packages what the authors themselves said they did.
+Strong agent-built games don't come from secret prompts. They come from a **clear quality bar, a feature list, critics that compare the game against references, and a very picky human**.
 
-## What actually worked (evidence)
+## Principles
 
-| Game | What the author did | Cost/time |
-|---|---|---|
-| Minecraft test (Noah Wachnik) | 2-sentence prompt: "Create a playable version of Minecraft in my browser. Add advanced shaders that make it look as real and beautiful as possible." Effort **max** | 1h37m, ~$15 |
-| Wildbrush, Zelda-like (Danny Limanseta) | "make a zelda-like game with paintbrush as a weapon … **wow me and use up to 6 agents**", then a day of iterating with his kids. Vanilla Claude Code, no skills, effort Extra High | ~30% of weekly limit |
-| Forest-like survival (aipulsedaily) | "build me a first person survival game in three.js so realistic you cant tell it isnt earth", then "first pass is mediocre", and it pulled real reference photos. **"Waves of agents, one per domain, and critic agents that never touched the build checked the renders against real photos."** Then "improve the textures": 50 subagents | 1 day; stopped at 12h by usage |
-| Tidewater (Dan Greenheck) | Kickoff: a long feature list plus "identify any other features i may have missed", "target is 60fps", "use webgpu and TSL", "iterate … refine against your references until it is perfect", "capture additional views … to verify AAA quality". Then dozens of short critique prompts. Effort max, parallel agents | $1,874 |
-| Relic Eater (Graalito) | One prompt into his own "gauntlet loop" skill (orchestrating 10+ personal skills); Godot by editing .tscn files; runs the game for screenshots | 7h, one prompt |
-| Lagoon Tree Village (cryptomanavan) | "simple 2 part prompt" plus his own concept drawings; no skills, no /goal; ran 7h straight | Max plan |
-| Topside (Sindre) | Brief per feature (`docs/BRIEF-*.md`) with phased steps B.1–B.8; each step implemented, independently reviewed, committed; feature flag until promotion | ongoing |
-| Fuse Bombers (Andreas) | "always create issues, spawn agents to implement, then new agents to review"; AGENTS.md rules; gameplay PRs stay open for a human playtest | one-shot plus iterations |
-
-Takeaways:
-1. **Quality bar + references beat prompt length.** The words "AAA", "Unreal-level", "can't tell it isn't earth" plus *reference photos* move the result more than any amount of spec.
+1. **A quality bar plus references beats prompt length.** Words like "AAA", "as polished as <reference game>" or "you can't tell it isn't real" combined with *reference photos* move the result more than pages of spec. A two-sentence prompt at maximum effort can produce a convincing first build.
 2. **Separate builders from critics.** A critic agent that never edits code and only compares screenshots with references is the single biggest quality lever.
-3. **Pickiness is the job.** Dan's critique prompts ("caustics are just noise", "rewrite from ground up. start over. find something better") are what turned a demo into Tidewater.
-4. **Most advanced prototype first, then polish** (Graalito). Polishing a rich prototype is easier than growing a thin one.
+3. **Pickiness is the job.** Short, specific critiques ("caustics are just noise", "rewrite this from the ground up and find something better") are what turn a demo into a game that holds up.
+4. **Build the most advanced prototype first, then polish.** Polishing a rich prototype is easier than growing a thin one.
+5. **Split work into waves of agents, one per domain**, each owning its own files, with critics running between waves.
+6. **Let a human playtest before merging gameplay.** Green CI is not acceptance.
 
 ## Phase 1: Brief (≤1 page, ~10 minutes)
 
 Ask Claude: "Write a detailed one-page brief for a game like <X> but <twist>." Then edit it. It must contain:
-- Fantasy and pitch in one sentence. Name the reference games ("Pixel Dungeon mapped onto a post-apocalyptic voxel world").
+- Fantasy and pitch in one sentence. Name the reference games ("a roguelike dungeon crawler mapped onto a post-apocalyptic voxel world").
 - Core loop (30 seconds, 5 minutes, session), win/fail, and the meta-progression.
 - Camera, controls, target platform (desktop browser? mobile?), **performance target (60 fps on <machine>)**.
 - Art direction: 3–6 reference images or photos plus 5 adjectives. Concept art from an image model is fine.
@@ -63,11 +53,11 @@ Settings: the highest reasoning effort for the kickoff and for rewrites (Claude 
 - **Builders** implement one phased step each and finish with a verification artefact: screenshot path, test output, perf numbers.
 - **Critics** run *after* each wave. They never touch the build. They compare captures with references and with the brief's acceptance criteria, and output a numbered defect list. See `game-art-review`.
 - **One review round per step.** Fix, then move on; don't loop reviews recursively.
-- Integrate behind a **feature flag** (`?bunkers`), and promote when it's done (Topside pattern).
+- Integrate behind a **feature flag** (`?caves`), and promote it when it's done.
 
 ## Phase 4: Critique prompts (the human's job)
 
-Write short, specific and physical critiques. Good patterns, from Dan Greenheck's actual prompts:
+Write short, specific and physical critiques. Good patterns:
 - Name the defect precisely: "seeing tons of bright flickering spots", "clouds are pixelated", "shadows are really weak", "foam is getting stretched out".
 - Demand a restart when a subsystem is fundamentally wrong: "caustics need to be rewritten from ground up. start over. find something better."
 - Ask it to think through the physics or art: "think of where particles should spawn, how they should spawn, what they should look like, how lighting works."
@@ -80,20 +70,20 @@ Avoid vague praise or "make it better". Every prompt should name what is wrong a
 
 Claude Code's `/goal` keeps working until an evaluator judges the condition met from the transcript alone. Other agents don't have `/goal`; paste the same done-condition at the end of the prompt, or use the agent's own loop/autonomous mode. Either way the condition must be mechanically provable from printed output:
 ```
-/goal Implement steps B.1–B.3 of docs/BRIEF-BUNKERS.md. Done when: `npm run build` exits 0,
-`npm test` passes, `npm run playtest -- --scenario bunkers` saves screenshots to
-artifacts/bunkers/*.png and prints their paths, and the seed sweep prints "256 seeds, 0 failures".
+/goal Implement steps B.1–B.3 of docs/BRIEF-CAVES.md. Done when: `npm run build` exits 0,
+`npm test` passes, `npm run playtest -- --scenario caves` saves screenshots to
+artifacts/caves/*.png and prints their paths, and the seed sweep prints "256 seeds, 0 failures".
 Stop after 30 turns if not done and summarise blockers.
 ```
 
 ## Guard rails for codebases that grow
 
-Sindre noticed Opus slowing and losing the big picture as Topside grew. Counter it with:
+Agents slow down and lose the big picture as a codebase grows. Counter it with:
 - **AGENTS.md** with architecture rules, commands and definition of done. Codex, Cursor, Copilot, OpenCode, Amp and most other agents read it natively. For Claude Code add a `CLAUDE.md` containing `@AGENTS.md`; for Gemini CLI set `contextFileName` to `AGENTS.md` or add a `GEMINI.md` that points to it.
-- **A deterministic simulation separate from rendering**, enforced by a test that fails on forbidden imports (Fuse Bombers: `src/engine` may not import Phaser/DOM/`Math.random`/`Date.now`). This keeps replays, bots, netcode and tests possible.
+- **A deterministic simulation separate from rendering**, enforced by a test that fails on forbidden imports (for example, `src/engine` may not import Phaser, the DOM, `Math.random` or `Date.now`). This keeps replays, bots, netcode and tests possible.
 - **A seeded RNG everywhere.** Generators are pure functions of the seed. Golden hashes guard worldgen changes (bump `GEN_VERSION`).
 - **docs/PROGRESS.md** as continuity between sessions; one brief per feature in `docs/BRIEF-<feature>.md`.
-- **Test discipline:** unit-test pure logic only (sim, RNG, scoring, generators plus solvers). Run one smoke playthrough per iteration and full visual passes at milestones. Opus loves adding slow tests (Sindre: "so much time goes to waiting on tests"), so tell it the budget.
+- **Test discipline:** unit-test pure logic only (sim, RNG, scoring, generators plus solvers). Run one smoke playthrough per iteration and full visual passes at milestones. Agents love adding slow tests, so state the time budget for the suite.
 - **One PR per feature;** gameplay PRs stay open for a human playtest ("green CI ≠ acceptance").
 
 ## Verification
